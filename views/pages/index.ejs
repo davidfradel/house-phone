@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <%- include('../partials/head'); %>
+</head>
+<body>
+    <div class="loader">
+        <div class="loading"></div>
+      </div>
+      <section id="home" class="page overlay">
+        <div class="container">
+            <div class="content cover text-center">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h1 class="mt-0 mb-4 animated hiding" data-animation="fadeInDown" data-delay="300">Renard Bleu</h1>
+                    </br>
+                        <a class="mt-0 mb-4 btn btn-blue nav-external animated hiding" data-animation="fadeIn" data-delay="900" href="#services">En savoir plus</a>
+                    </br>
+                    </br>
+                        <h3 class="mt-0 mb-0 animated hiding" data-animation="fadeIn" data-delay="600">L'immobilier rusé</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+    <section id="services" class="page">
+        <div class="container">
+            <div class="content text-center">
+                <div class="heading">
+                    <h2 class="mt-0 mb-4">Ce qui nous inspire.</h2>
+                    <div class="border"></div>
+                    <p class="mt-4 mb-0">Notre mission est de mettre à disposition des outils puissants et simple d'utilisation pour que chacun puisse avoir le contrôle sur ses investissements</p>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 service animated hiding" data-animation="fadeInUp" data-delay="300">
+                        <i class="fa fa-home fa-5x"></i>
+                        <h3 class="mt-5 mb-4"><a href="#">L'immobilier au juste prix</a></h3>
+                        <p>Grâce aux données publiques disponibles sur le site du gouvernement sur toutes les valeurs foncières enregistrées depuis 2015 en France et à la puissance du machine learning, nous avons pu mettre au point un modèle prédictif vous permettant d'obtenir le prix le plus proche du marché et cela en seulement quelques secondes.</p>
+                    </div>
+                    <div class="col-sm-4 service animated hiding" data-animation="fadeInUp" data-delay="600">
+                        <i class="fa fa-search fa-5x"></i>
+                        <h3 class="mt-5 mb-4"><a href="#">L'histoire de votre bien</a></h3>
+                        <div id="soon">Prochainement disponible !</div> 
+                        <p>Parce que l'immobilier est avant tout une question de données, nous vous proposons de rechercher l'historique de votre bien sur Internet afin que vous ayez un maximum d'informations en main pour faire votre choix. Depuis combien de temps ce bien est réellement disponible, le prix de vente à t-il été modifié depuis son annonce, etc...</p>
+                    </div>
+                    <div class="col-sm-4 service animated hiding" data-animation="fadeInUp" data-delay="900">
+                        <i class="fa  fa-lightbulb-o fa-5x"></i>
+                        <h3 class="mt-5 mb-4"><a href="#">Innover ensemble</a></h3>
+                        <p>Parce que nous souhaitons apporter notre expertise du machine learning au plus grand nombre, si vous avez des idées ou des projets particuliers à nous soumettre, n'hésitez pas à nous contacter !</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="work" class="page">
+        <div class="container">
+            <div class="content text-center">
+                <div class="heading">
+                    <h2 class="mt-0 mb-4">Démonstration.</h2>
+                    <div class="border"></div>
+                    <p class="mt-4 mb-0">Parce qu'une démonstration vaut mieux qu'un long discours 😉</p>
+                </br>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe src="http://www.youtube.com/embed/c6CFSI3k4Mc" width="60%" height="60%" ></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="clients" class="page">
+        <div class="container">
+            <div class="content text-center">
+                <div class="row">
+                    <div class="col-sm-12 animated hiding" data-animation="fadeInDown">
+                        <div id="testimonials" class="carousel slide">
+                            <ol class="carousel-indicators">
+                                <li data-target="#testimonials" data-slide-to="0" class="active"></li>
+                                <li data-target="#testimonials" data-slide-to="1" class=""></li>
+                                <li data-target="#testimonials" data-slide-to="2" class=""></li>
+                                <li data-target="#testimonials" data-slide-to="3" class=""></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="carousel-item active flex-column">
+                                    <p class="quote mb-4">J'utilise cet outil en tant qu'agent immobilier depuis quelques mois, il est très pratique. La fiabilité des réponses dépend des zones géographiques.</p>
+                                    <p class="client mb-5">Rémi Veronneau</p>
+                                </div>
+                                <div class="carousel-item flex-column">
+                                    <p class="quote mb-4">Avec mon copain, grâce au site, nous avons réussi à négocier notre achat d'appartement à la baisse. Merci !</p>
+                                    <p class="client mb-5">Mélodie Duperré</p>
+                                </div>
+                                <div class="carousel-item flex-column">
+                                    <p class="quote mb-4">En un mot, bluffant.</p>
+                                    <p class="client mb-5">Xavier Chesnay</p>
+                                </div>
+                                <div class="carousel-item flex-column">
+                                    <p class="quote mb-4">Très pratique quand on souhaite analyser une ville qu'on ne connait pas.</p>
+                                    <p class="client mb-5">Éric Charpie</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="about" class="page">
+        <div class="container">
+            <div class="content text-center">
+                <div class="heading">
+                    <h2 class="mt-0 mb-4">A propos de nous.</h2>
+                    <div class="border"></div>
+                    <p class="mt-4 mb-0">Le projet à débuter en 2020 lors du premier confinement. </br> Nous cherchions à mettre à disposition du public un outil simple d'utilisation permettant à chacun de reprendre du pouvoir dans la négociation immobilière.</p>
+                </div>
+                <div class="row i-am-centered">
+                    <div class="col-md-3 col-sm-6 col-xs-12 teammate animated hiding" data-animation="fadeInLeft" data-delay="600">
+                        <div class="profile-photo">
+                            <img class="img-fluid" src="img/team/1.jpg" alt="">
+                        </div>
+                        <div class="bio mt-4">
+                            <h5 class="mb-1">David</h5>
+                            <p>Développeur</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12 teammate animated hiding" data-animation="fadeInUp" data-delay="300">
+                        <div class="profile-photo">
+                            <img class="img-fluid" src="img/team/2.jpg" alt="">
+                        </div>
+                        <div class="bio mt-4">
+                            <h5 class="mb-1">Pierre</h5>
+                            <p>Analyste marketing</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contact" class="page overlay">
+        <div class="container">
+            <div class="content cover text-center">
+                <div class="heading">
+                    <h2 class="mt-0 mb-4">Vous avez une question ?</h2>
+                    <div class="border"></div>
+                    <p class="mt-4 mb-0">Contactez nous sur directement sur Messenger ou par email</p>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 animated hiding" data-animation="fadeInRight" data-delay="600">
+                        <i class="fa fa-map-marker fa-3x"></i>
+                        <a href="#">France</a>
+                    </div>
+                    <div class="col-sm-4 animated hiding" data-animation="fadeInDown" data-delay="300">
+                        <i class="fa" > 
+                            <img class="messenger" src="/img/cover/messenger.png"/>
+                        </i>
+                        <a href="http://m.me/renardbleuofficiel">http://m.me/renardbleuofficiel</a>
+                    </div>
+                    <div class="col-sm-4 animated hiding" data-animation="fadeInLeft" data-delay="600">
+                        <i class="fa fa-envelope fa-3x"></i>
+                        <a href="mailto:contact@renard-bleu.fr">contact@renard-bleu.fr</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+</body>
+</html>
