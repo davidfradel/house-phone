@@ -44,7 +44,7 @@ passport.deserializeUser(User.deserializeUser());
 const LocalStrategy = require('passport-local').Strategy; 
 passport.use(new LocalStrategy(User.authenticate())); 
 
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 // index page
 app.get('/', (req, res) => {
@@ -82,6 +82,6 @@ app.get('/sessions', (req, res) => {
       })
   })
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+app.listen(PORT, () => {
+  console.log(`Example app listening at http://localhost:${PORT}`)
 })
