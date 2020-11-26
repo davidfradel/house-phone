@@ -22,16 +22,21 @@ async function login(req, res, next) {
     if(!req.body.password) return res.json({success: false, message: "Password was not given"});
 
     passport.authenticate('local',(err, user, info) => {
-        console.log('err',err )
-        console.log('user',user )
-        console.log('info', info)
-
         if (err) return next(err);
         if (!user) return res.redirect('/login');
+
+        req.user = user;
                 
         req.logIn(user, (err) => {
             if (err) return next(err);
-            return res.redirect('/account');
+
+            const currentDate = new Date();
+            const freeTrialEndDate = new Date;
+            freeTrialEndDate.setDate(freeTrialEndDate.getDate() + 7);
+
+            const freeTrial = currentDate < freeTrialEndDate;
+
+            res.render('pages/account', { freeTrial });
         });
     })(req, res, next);
   }; 

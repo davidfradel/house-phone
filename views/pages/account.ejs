@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <%- include('../partials/head'); %>
+</head>
+<body>
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+    <main>
+        <section id="services" class="page">
+            <div class="container">
+                <div class="content text-center">
+                    <div class="heading">
+                        <h2 class="mt-0 mb-4">Bienvenue dans votre espace</h2>
+                        <div class="border"></div>
+                    </br>
+
+                    <% if(freeTrial){ %>
+                        <div class="alert alert-success button-active" role="alert">
+                            Offre d'essai de 7 jours activée !
+                        </div>
+                      <% } else{ %>  
+                        <h1>bar</h1>
+                     <% } %>
+                    <%= freeTrial %>
+
+                </br>
+                <form action="/prediction" method="post">
+                    <div class="container py-5">
+                        <div class="row">
+                            <div class="col-md-10 mx-auto">
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <label for="homeType">Type de bien</label>
+                                        </br>
+                                            <select class="custom-select col-md-6" id="homeType" name="local_type">
+                                                <option selected value="Appartement">Appartement</option>
+                                                <option value="Maison">Maison</option>
+                                              </select>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="buildingArea">Surface habitable (en m2)</label>
+                                            <input type="number" class="form-control col-md-6" id="buildingArea" placeholder="120" name="building_area">>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <label for="landArea">Surface du terrain (en m2)</label>
+                                            <input type="number" class="form-control col-md-6" id="landArea" placeholder="400" name="land_area">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="totalRoom">Nombre de chambres</label>
+                                            <input type="number" class="form-control" id="totalRoom" placeholder="2" name="total_room">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <label for="streetType">Type de voie</label>
+                                            <input type="text" class="form-control col-md-6" id="streetType" placeholder="avenue" name="street_type">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="streetName">Nom de la voie</label>
+                                            <input type="text" class="form-control" id="streetName" placeholder="des champs elysées" name="street_name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6">
+                                            <label for="postalCode">Code postal</label>
+                                            <input type="number" class="form-control" id="postalCode" placeholder="75008" name="postal_code">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary px-4 float-none">Lancer une prédiction</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                    </div>
+                </div>
+            </div>
+    
+        </section>
+     </main>
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+</body>
+</html>
