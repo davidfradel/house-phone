@@ -16,14 +16,16 @@
                         <div class="border"></div>
                     </br>
 
-                    <% if(freeTrial){ %>
+                    <% if(!freeTrial){ %>
                         <div class="alert alert-success button-active" role="alert">
                             Offre d'essai de 7 jours activée !
                         </div>
                       <% } else{ %>  
-                        <h1>bar</h1>
+                        <div class="alert alert-danger button-active" role="alert">
+                            Votre offre d'essai est terminée
+                        </div>
+                        <button type="button" class="btn btn-primary px-4 float-none">Je m'abonne</button>
                      <% } %>
-                    <%= freeTrial %>
 
                 </br>
                 <form action="/prediction" method="post">
@@ -41,7 +43,7 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="buildingArea">Surface habitable (en m2)</label>
-                                            <input type="number" class="form-control col-md-6" id="buildingArea" placeholder="120" name="building_area">>
+                                            <input type="number" class="form-control col-md-6" id="buildingArea" placeholder="120" name="building_area">
                                         </div>
                                     </div>
                                     <div class="form-group row">

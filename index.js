@@ -1,50 +1,72 @@
+const mongoose = require("mongoose");
 const express = require('express');
-const uuid = require('uuid')
 const session = require('express-session')
 const bodyParser = require('body-parser')
 const passport = require('passport');
 const { ensureLoggedIn } = require('connect-ensure-login');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const MongoStore = require("connect-mongo")(session);
+
+const db = mongoose.connection;
+const mongoStore = new MongoStore({ mongooseConnection: db });
+
+const userController = require('./app_api/controllers/users');
+const PredictionController = require('./app_api/controllers/predictions');
+const { User } = require('./app_api/models/users');
+
+
+async function userData(req, res, next) {
+  try {
+    const { user: email } = req.session.passport;
+
+    const user = await User.findOne({ email});
+
+    const currentDate = new Date();
+    const freeTrialEndDate = new Date;
+    freeTrialEndDate.setDate(freeTrialEndDate.getDate() + 7);
+
+    req.user = user;
+    req.user.freeTrial = currentDate < freeTrialEndDate;
+  
+    return next();
+  } catch(error){
+    return next();
+  }
+}
 
 
 const app = express();
 
 require('./app_api/services/database');
 
-const userController = require('./app_api/controllers/users');
-const PredictionController = require('./app_api/controllers/predictions');
-const { User } = require('./app_api/models/users');
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.use(cookieParser('secret'));
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
 
-app.use(session({
-  genid: (req) => {
-    console.log('Inside the session middleware')
-    console.log(req.sessionID)
-    console.log('req.session', req.session)
-    return uuid.v4(); // use UUIDs for session IDs
-  },
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}));
+
+const sessionOpts = {
+  saveUninitialized: true, // saved new sessions
+  resave: false, // do not automatically write to the session store
+  store: mongoStore,
+  secret: 'big secret',
+  cookie : { httpOnly: true, maxAge: 2419200000 } // configure when sessions expires
+}
+app.use(session(sessionOpts))
+
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(User.serializeUser()); 
-passport.deserializeUser(User.deserializeUser()); 
-
-
 const LocalStrategy = require('passport-local').Strategy; 
-passport.use(new LocalStrategy(User.authenticate())); 
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use(userData);
 
 const PORT = process.env.PORT || 3000;
 
@@ -72,8 +94,9 @@ app.get('/about', (req, res) => {
 });
 
 app.get('/account', ensureLoggedIn(), (req, res) => {
-  console.log("req.user", req.user)
-  res.render('pages/account');
+  console.log('req', req.user)
+  const { freeTrial } = req.user;
+  res.render('pages/account', { freeTrial });
 });
 
 app.post('/prediction', (req, res) => {

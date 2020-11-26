@@ -29,6 +29,10 @@ const UserSchema = new mongoose.Schema({
     mailValidation: {
         type: Boolean,
         default: false,
+    },
+    subscription: {
+        type: Boolean,
+        default: false,
     }
   });
 

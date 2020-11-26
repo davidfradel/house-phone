@@ -15,6 +15,7 @@ async function signIn(req, res) {
     res.render('pages/signin');
 }
 
+
 async function login(req, res, next) {
     req.body.username = req.body.email;
    
