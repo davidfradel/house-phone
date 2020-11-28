@@ -16,7 +16,7 @@
                         <div class="border"></div>
                     </br>
 
-                    <% if(!freeTrial){ %>
+                    <% if(freeTrial){ %>
                         <div class="alert alert-success button-active" role="alert">
                             Offre d'essai de 7 jours activée !
                         </div>
@@ -27,6 +27,16 @@
                         <button type="button" class="btn btn-primary px-4 float-none">Je m'abonne</button>
                      <% } %>
 
+                     <% if(prediction){ %>
+                        <div class="text-primary">
+                            <h5>Votre bien est estimé à <%= price %>. </br> Cette prédiction à un indice de confiance de <%= confidence %> %</h5> 
+                        </div>
+                      <% } else { %>  
+                       
+                     <% } %>
+
+
+
                 </br>
                 <form action="/prediction" method="post">
                     <div class="container py-5">
@@ -36,40 +46,46 @@
                                         <div class="col-sm-6">
                                             <label for="homeType">Type de bien</label>
                                         </br>
-                                            <select class="custom-select col-md-6" id="homeType" name="local_type">
-                                                <option selected value="Appartement">Appartement</option>
-                                                <option value="Maison">Maison</option>
+                                            <select class="custom-select col-md-6" id="homeType" %>" name="local_type">
+                                                <%
+                                                var options = [ "Appartement", "Maison",  ];
+                                                for ( var i = 0; i < options.length; i++ )
+                                                {
+                                                    var selected = ( features.local_type == options[ i ] ) ? "selected" : "";
+                                                    %><option value="<%=options[ i ] %>" <%=selected %>><%=options[ i ] %></option><%
+                                                }
+                                                %>
                                               </select>
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="buildingArea">Surface habitable (en m2)</label>
-                                            <input type="number" class="form-control col-md-6" id="buildingArea" placeholder="120" name="building_area">
+                                            <input type="number" value="<%= features.building_area %>" required class="form-control col-md-6" id="buildingArea" name="building_area">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-sm-6">
                                             <label for="landArea">Surface du terrain (en m2)</label>
-                                            <input type="number" class="form-control col-md-6" id="landArea" placeholder="400" name="land_area">
+                                            <input type="number" value="<%= features.land_area %>" class="form-control col-md-6" required id="landArea" name="land_area">
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="totalRoom">Nombre de chambres</label>
-                                            <input type="number" class="form-control" id="totalRoom" placeholder="2" name="total_room">
+                                            <input type="number" value="<%= features.total_room %>" class="form-control" required id="totalRoom" name="total_room">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-sm-6">
                                             <label for="streetType">Type de voie</label>
-                                            <input type="text" class="form-control col-md-6" id="streetType" placeholder="avenue" name="street_type">
+                                            <input type="text" value="<%= features.street_type %>" class="form-control col-md-6" required id="streetType" name="street_type">
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="streetName">Nom de la voie</label>
-                                            <input type="text" class="form-control" id="streetName" placeholder="des champs elysées" name="street_name">
+                                            <input type="text" value="<%= features.street_name %>" class="form-control" required id="streetName" name="street_name">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-sm-6">
                                             <label for="postalCode">Code postal</label>
-                                            <input type="number" class="form-control" id="postalCode" placeholder="75008" name="postal_code">
+                                            <input type="number" value="<%= features.postal_code %>" class="form-control" required id="postalCode" name="postal_code">
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary px-4 float-none">Lancer une prédiction</button>

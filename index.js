@@ -12,7 +12,7 @@ const db = mongoose.connection;
 const mongoStore = new MongoStore({ mongooseConnection: db });
 
 const userController = require('./app_api/controllers/users');
-const PredictionController = require('./app_api/controllers/predictions');
+const predictionController = require('./app_api/controllers/predictions');
 const { User } = require('./app_api/models/users');
 
 
@@ -20,14 +20,14 @@ async function userData(req, res, next) {
   try {
     const { user: email } = req.session.passport;
 
-    const user = await User.findOne({ email});
+    const user = await User.findOne({ email}).lean();
 
     const currentDate = new Date();
     const freeTrialEndDate = new Date;
     freeTrialEndDate.setDate(freeTrialEndDate.getDate() + 7);
 
     req.user = user;
-    req.user.freeTrial = currentDate < freeTrialEndDate;
+    req.user.freeTrial = currentDate < freeTrialEndDate ? true : false;
   
     return next();
   } catch(error){
@@ -72,51 +72,67 @@ const PORT = process.env.PORT || 3000;
 
 // index page
 app.get('/', (req, res) => {
-    res.render('pages/index');
+  const isConnected = req.user ? true: false;
+    res.render('pages/index', { isConnected } );
 });
 
 app.get('/login', (req, res) => {
-    res.render('pages/login');
+  const isConnected = false;
+    res.render('pages/login', { isConnected });
 });
 
 app.post('/login', userController.login);
 
 app.get('/signin', (req, res) => {
-    res.render('pages/signin');
+  const isConnected = false;
+  res.render('pages/signin', { isConnected });
 });
 
 app.post('/signin', userController.signIn);
 
-// about page
-app.get('/about', (req, res) => {
-    console.log("req", req)
-    res.render('pages/about');
-});
-
 app.get('/account', ensureLoggedIn(), (req, res) => {
-  console.log('req', req.user)
   const { freeTrial } = req.user;
-  res.render('pages/account', { freeTrial });
+  const prediction = false;
+  const features = {
+    local_type: "",
+    building_area: "",
+    land_area: "",
+    total_room: "", 
+    street_type: "",  
+    street_name: "", 
+    postal_code: ""
+};
+
+const isConnected = true;
+  res.render('pages/account', { isConnected, freeTrial, prediction, features });
 });
 
-app.post('/prediction', (req, res) => {
-  console.log('req.body--------', req.body)
-  res.render('pages/login');
-})
+app.get('/prediction', ensureLoggedIn(), (req, res) => {
+  const { freeTrial } = req.user;
+  const prediction = false;
+  const features = {
+    local_type: "",
+    building_area: "",
+    land_area: "",
+    total_room: "", 
+    street_type: "",  
+    street_name: "", 
+    postal_code: ""
+};
 
-app.get('/test', ensureLoggedIn(), (req, res) => {
-    console.log('req.user', req.user)
-    res.send('TOTO!')
-})
+const isConnected = true;
+  res.render('pages/account', { isConnected, freeTrial, prediction, features });
+});
 
-app.get('/sessions', (req, res) => {
-    req.sessionStore.sessionModel.findAll()
-      .then(sessions => sessions.map(sess => JSON.parse(sess.dataValues.data)))
-      .then((sessions) => {
-        res.send(sessions)
-      })
-  })
+app.post('/prediction', ensureLoggedIn(), predictionController.createPrediction)
+
+app.get('/logout', function (req, res) {
+  req.session.destroy(function (err) {
+      const isConnected = false;
+      res.render('pages/login', { isConnected }); //Inside a callback… bulletproof!
+  });
+});
 
 app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`)
+  console.log(`App listening at http://localhost:${PORT}`)
 })

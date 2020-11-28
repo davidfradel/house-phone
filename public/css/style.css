@@ -620,3 +620,7 @@ a:focus {
     background-color: #3d77b6;
     color: #fff;
 }
+
+#prediction {
+    color: #3d77b6;
+}
