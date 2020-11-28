@@ -7,6 +7,8 @@ const { ensureLoggedIn } = require('connect-ensure-login');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const MongoStore = require("connect-mongo")(session);
+require('dotenv').config()
+
 
 const db = mongoose.connection;
 const mongoStore = new MongoStore({ mongooseConnection: db });
