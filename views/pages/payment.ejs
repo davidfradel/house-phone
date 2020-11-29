@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <%- include('../partials/head'); %>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Ensures optimal rendering on mobile devices. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- Optimal Internet Explorer compatibility -->
+</head>
+<body>
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+    <main>
+        <section id="services" class="page">
+            <div class="container">
+                <div class="content text-center">
+                    <div class="heading">
+                        <h2 class="mt-0 mb-4">Abonnement</h2>
+                        <div class="border"></div>
+                        </br>
+
+                        <script src="<%= PAYPAL_URL %>">
+                        </script>
+                    
+                        <div id="paypal-button-container"></div>
+                    
+                        <!-- Add the checkout buttons, set up the order and approve the order -->
+                        <script>
+                          paypal.Buttons({
+
+                            createSubscription: function(data, actions) {
+
+                                return actions.subscription.create({
+                                    'plan_id': 'P-1TN177217W960351WL7BXMTA'
+                                });
+                            },
+
+                            onApprove: function(data, actions) {
+                                alert('Votre abonnement a été créé avec succès ' + data.subscriptionID);
+                            }
+                        }).render('#paypal-button-container'); // Display payment options on your web page
+                          </script>
+                    </div>
+ 
+
+                </div>
+            </div>
+        </section>
+     </main>
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+</body>
+</html>

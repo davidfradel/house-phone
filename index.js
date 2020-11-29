@@ -126,6 +126,14 @@ const isConnected = true;
   res.render('pages/account', { isConnected, freeTrial, prediction, features });
 });
 
+app.get('/subscription', ensureLoggedIn(), (req, res) => {
+  const isConnected = true;
+  const PAYPAL_URL = process.env.PAYPAL_URL;
+  const PAYPAL_PLAN_ID = process.env.PAYPAL_PLAN_ID;
+
+  res.render('pages/payment', { isConnected, PAYPAL_URL, PAYPAL_PLAN_ID });
+});
+
 app.post('/prediction', ensureLoggedIn(), predictionController.createPrediction)
 
 app.get('/logout', function (req, res) {
