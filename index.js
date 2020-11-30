@@ -134,6 +134,8 @@ app.get('/subscription', ensureLoggedIn(), (req, res) => {
   res.render('pages/payment', { isConnected, PAYPAL_URL, PAYPAL_PLAN_ID });
 });
 
+app.get('/verification/:userId/:code', userController.emailValidation);
+
 app.post('/prediction', ensureLoggedIn(), predictionController.createPrediction)
 
 app.get('/logout', function (req, res) {

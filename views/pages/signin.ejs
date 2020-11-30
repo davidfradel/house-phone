@@ -15,6 +15,22 @@
                         <h2 class="mt-0 mb-4">S'inscrire</h2>
                         <div class="border"></div>
                     </br>
+
+                    <% if(locals.errorMessage){ %>
+                        <div class="alert alert-danger" role="alert">
+                            <%= errorMessage %>
+                          </div>
+                     <% } %>
+
+                     <% if(locals.success){ %>
+                        <div class="alert alert-success" role="alert">
+                            Un lien vient d'être envoyé sur votre email pour valider votre compte !
+                        </br>
+                            Si vous ne recevez rien, regarder les courriers indésirables
+                          </div>
+                      <% } %>  
+                   
+                    
                         <form action="/signin" method="post" oninput='password2.setCustomValidity(password2.value != password.value ? "Les deux mots de passe ne sont pas identiques" : "")'>
                             <div class="form-group">
                               <label for="email">Email</label>

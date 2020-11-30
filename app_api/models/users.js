@@ -26,9 +26,9 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
-    mailValidation: {
-        type: Boolean,
-        default: false,
+    status: {
+        type: String,
+        default: "pending",
     },
     subscription: {
         type: Boolean,
