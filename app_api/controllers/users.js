@@ -13,7 +13,6 @@ async function signIn(req, res) {
     try {
         const Users = new User({ email, username : email}); 
         const user = await User.register(Users, password)
-        console.log('user', user)
 
         const code = uuidv4();
         await Secret.create({ email, code })
@@ -44,7 +43,6 @@ async function signIn(req, res) {
         res.render('pages/signin', { isConnected, success: true });
         
     } catch(error){
-        console.log('error', error)
         const errorMessage = `Cet email est déjà prise par un utilisateur`
         res.render('pages/signin', { isConnected, errorMessage });
     }
@@ -58,9 +56,13 @@ async function login(req, res, next) {
 
     passport.authenticate('local',(err, user, info) => {
         if (err) return next(err);
-        // error is mail is not valid
-        // renvoyer un mail
+        let isConnected = false;
+
+        const unvalidated = true;
         if (!user) return res.redirect('/login');
+        const userId = user._id;
+
+        if (user && user.status === `pending`) return res.render('pages/login', { isConnected, unvalidated, userId });
 
         const currentDate = new Date();
         const freeTrialEndDate = new Date;
@@ -75,7 +77,7 @@ async function login(req, res, next) {
             const freeTrial = req.user.freeTrial;
             const prediction = false;
             const features = {};
-            const isConnected = req.user ? true : false;
+            isConnected = req.user ? true : false;
 
             res.render('pages/account', { isConnected, freeTrial, prediction, features });
         });
@@ -86,7 +88,7 @@ async function login(req, res, next) {
     const { userId, code } = req.params;
 
     const user = await User.findById(userId).lean();
-    if(!user) return res.json({ toto: 'toto'})
+
     const { email } = user;
 
     const secret = await Secret.findOne({ email }).lean();
@@ -96,8 +98,48 @@ async function login(req, res, next) {
             User.findOneAndUpdate({ _id: userId}, {status: `done`}),
             Secret.findOneAndDelete({ email }),
         ])
+
+        const isConnected = false;
+        const validated = true;
+        res.render('pages/login', { isConnected, validated });
+    } else {
         return res.redirect('/login');
     }
+  }; 
+
+  async function emailValidationRefresh(req, res) {
+    const { userId } = req.params;
+
+    const user = await User.findById(userId).lean();
+    const { email } = user;
+
+    const code = uuidv4();
+
+    await Secret.findOneAndUpdate({ email }, { code }, { upsert: true, new: true });
+
+    // Initialize mail server
+    const transporter = nodemailer.createTransport({
+        host: "ssl0.ovh.net",
+        port: 587,
+            auth: {
+                type: "login",
+                user: process.env.ADMIN_EMAIL,
+                pass: process.env.ADMIN_PASSWORD
+        },
+    });
+    
+    const url = `https://www.renard-bleu.fr/verification/${userId}/${code}`
+    
+    await transporter.sendMail({
+        from: '"Renard Bleu" <contact@renard-bleu.fr>',
+        to: email,
+        subject: "Renard Bleu vous souhaite la bienvenue",
+        text: `Veuillez accéder au lien suivant pour valider votre compte ${url}`,
+        html: `<p>Veuillez cliquer sur lien suivant pour valider votre compte  <a href="${url}">${url}</a>
+        </p>`,
+    });
+      
+    return res.redirect('/login');
   }; 
 
 
@@ -106,4 +148,5 @@ module.exports = {
     signIn,
     login,
     emailValidation,
+    emailValidationRefresh,
 }

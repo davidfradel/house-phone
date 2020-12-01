@@ -134,6 +134,8 @@ app.get('/subscription', ensureLoggedIn(), (req, res) => {
   res.render('pages/payment', { isConnected, PAYPAL_URL, PAYPAL_PLAN_ID });
 });
 
+app.get('/verification/refresh/:userId', userController.emailValidationRefresh);
+
 app.get('/verification/:userId/:code', userController.emailValidation);
 
 app.post('/prediction', ensureLoggedIn(), predictionController.createPrediction)
@@ -141,7 +143,8 @@ app.post('/prediction', ensureLoggedIn(), predictionController.createPrediction)
 app.get('/logout', function (req, res) {
   req.session.destroy(function (err) {
       const isConnected = false;
-      res.render('pages/login', { isConnected }); //Inside a callback… bulletproof!
+      const validation = true;
+      res.render('pages/login', { isConnected, validation }); //Inside a callback… bulletproof!
   });
 });
 
