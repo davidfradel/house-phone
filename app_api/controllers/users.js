@@ -28,7 +28,7 @@ async function signIn(req, res) {
             },
         });
 
-        const url = `https://www.renard-bleu.fr/verification/${user._id}/${code}`
+        const url = `https://renard-bleu.herokuapp.com/verification/${user._id}/${code}`
 
         await transporter.sendMail({
             from: '"Renard Bleu" <contact@renard-bleu.fr>',
@@ -128,7 +128,7 @@ async function login(req, res, next) {
         },
     });
     
-    const url = `https://www.renard-bleu.fr/verification/${userId}/${code}`
+    const url = `https://renard-bleu.herokuapp.com/verification/${userId}/${code}`
     
     await transporter.sendMail({
         from: '"Renard Bleu" <contact@renard-bleu.fr>',
