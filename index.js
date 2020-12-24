@@ -7,6 +7,7 @@ const { ensureLoggedIn } = require('connect-ensure-login');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const MongoStore = require("connect-mongo")(session);
+const nodalytics = require('nodalytics');
 require('dotenv').config();
 
 const db = mongoose.connection;
@@ -39,7 +40,9 @@ async function userData(req, res, next) {
 
 const app = express();
 
-app.locals.env = process.env
+const { GOOGLE_ID } = process.env;
+
+app.use(nodalytics(GOOGLE_ID));
 
 require('./app_api/services/database');
 
